@@ -3,7 +3,9 @@
     var WALL = root.maze.WALL;
     var PATH = root.maze.PATH;
     var CURRENT = root.maze.CURRENT;
+    var WAVES = root.maze.WAVES;
 
+    var SOLUTION = [];
     var START = 1;
 
     function isPassable(maze, y, x) {
@@ -67,11 +69,14 @@
             }
         };
 
-        PATH = path;
+        SOLUTION = path;
     }
 
     function wave(maze, y, x, waveNumber) {
         maze[y][x] = waveNumber;
+
+        WAVES[waveNumber] = WAVES[waveNumber] || [];
+        WAVES[waveNumber].push([y, x]);
 
         if(isFinish(maze, y, x)) {
             restorePath(maze, y, x, waveNumber);
@@ -107,9 +112,9 @@
         var mazeCopy = maze.slice();
         var waveNumber = START;
 
-        wave(mazeCopy, y, x, waveNumber);
+        wave(maze, y, x, waveNumber);
 
-        return PATH;
+        return SOLUTION;
     }
 
     root.maze.solution = solution;

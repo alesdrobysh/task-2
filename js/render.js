@@ -3,6 +3,8 @@
     var WALL = root.maze.WALL;
     var PATH = root.maze.PATH;
     var CURRENT = root.maze.CURRENT;
+    var VIZUALIZATION_DELAY = maze.VIZUALIZATION_DELAY;
+    var VIZUALIZATION_COLOR = maze.VIZUALIZATION_COLOR;
 
     /**
      * Создает HTML элемент заданного типа с заданным CSS классом
@@ -26,7 +28,7 @@
      */
     function render(maze, path) {
         if (path && path.length) {
-            var point, 
+            var point,
                 i;
 
             for (i = 0; i < path.length; i++) {
@@ -40,9 +42,9 @@
         var containerElem = element('div', 'maze'),
             rowElem,
             type,
-            row, 
+            row,
             cell,
-            x, 
+            x,
             y;
 
         for (y = 0; y < maze.length; y++) {
@@ -80,5 +82,23 @@
         return containerElem;
     }
 
+    function visualizeWave(waves, wave) {
+        waves[wave].forEach(function(point) {
+            var cell = document.querySelector('.maze')
+                            .querySelectorAll('.maze__row')[point[0]]
+                            .querySelectorAll('.maze__cell')[point[1]];
+
+            cell.style.backgroundColor = VIZUALIZATION_COLOR;
+            cell.style.opacity = wave/Object.keys(waves).length;
+        });
+    }
+
+    function visualize(waves) {
+        Object.keys(waves).forEach(function(wave, index) {
+            setTimeout(visualizeWave.bind(null, waves, wave), index*VIZUALIZATION_DELAY);
+        });
+    }
+
     root.maze.render = render;
+    root.maze.visualize = visualize;
 })(this);

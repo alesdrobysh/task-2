@@ -69,34 +69,50 @@
             }
         };
 
-        SOLUTION = path;
+        SOLUTION.push(path);
     }
 
-    function wave(maze, y, x, waveNumber) {
-        maze[y][x] = waveNumber;
+    function lee(maze, yStart, xStart, waveNumber) {
+        var dx = [1, 0, -1, 0];
+        var dy = [0, 1, 0, -1];
+        var mazeHeight = maze.length;
+        var mazeWidth = maze[0].length;
+        var stop = false;
+        var x, y, k;
 
-        WAVES[waveNumber] = WAVES[waveNumber] || [];
-        WAVES[waveNumber].push([y, x]);
+        maze[yStart][xStart] = waveNumber;
 
-        if(isFinish(maze, y, x)) {
-            restorePath(maze, y, x, waveNumber);
-        } else if(isAnotherOneWavePossible(maze, y, x)) {
-            if(isPassable(maze, y - 1, x)) {
-                wave(maze, y - 1, x, waveNumber + 1);
+        WAVES[waveNumber] = [];
+        WAVES[waveNumber].push([yStart, xStart]);
+
+        do {
+            stop = true;
+
+            for (y = 0; y < mazeHeight; y++) {
+                for (x = 0; x < mazeWidth; x++) {
+                    if (maze[y][x] === waveNumber) {
+                        WAVES[waveNumber] = WAVES[waveNumber] || [];
+                        WAVES[waveNumber].push([y, x]);
+
+                        for (k = 0; k < 4; k++) {
+                            var iy = y + dy[k];
+                            var ix = x + dx[k];
+
+                            if (isPassable(maze, iy, ix)) {
+                                stop = false;
+                                maze[iy][ix] = waveNumber + 1;
+                            }
+
+                            if(isFinish(maze, y, x)) {
+                                restorePath(maze, y, x, waveNumber);
+                            }
+                        }
+                    }
+                }
             }
 
-            if(isPassable(maze, y, x - 1)) {
-                wave(maze, y, x - 1, waveNumber + 1);
-            }
-
-            if(isPassable(maze, y + 1, x)) {
-                wave(maze, y + 1, x, waveNumber + 1);
-            }
-
-            if(isPassable(maze, y, x + 1)) {
-                wave(maze, y, x + 1, waveNumber + 1);
-            }
-        }
+            waveNumber++;
+        } while (!stop);
 
     }
 
@@ -112,7 +128,7 @@
         var mazeCopy = maze.slice();
         var waveNumber = START;
 
-        wave(maze, y, x, waveNumber);
+        lee(maze, y, x, waveNumber);
 
         return SOLUTION;
     }

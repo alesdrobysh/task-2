@@ -5,7 +5,7 @@
     var CURRENT = root.maze.CURRENT;
     var WAVES = root.maze.WAVES;
 
-    var SOLUTION = [];
+    var PATHS = root.maze.PATHS = [];
     var START = 1;
 
     function isPassable(maze, y, x) {
@@ -69,7 +69,21 @@
             }
         };
 
-        SOLUTION.push(path);
+        PATHS.push(path);
+    }
+
+    function getShortestPath(paths) {
+        var indexOfShortestPath = 0;
+        var shortestPathLength = paths[0].length;
+
+        for (var i = 0; i < paths.length; i++) {
+            if (paths[i].length < shortestPathLength) {
+                shortestPathLength = paths[i].length;
+                indexOfShortestPath = i;
+            }
+        }
+
+        return paths[indexOfShortestPath];
     }
 
     function lee(maze, yStart, xStart, waveNumber) {
@@ -94,6 +108,10 @@
                         WAVES[waveNumber] = WAVES[waveNumber] || [];
                         WAVES[waveNumber].push([y, x]);
 
+                        if(isFinish(maze, y, x)) {
+                            restorePath(maze, y, x, waveNumber);
+                        }
+
                         for (k = 0; k < 4; k++) {
                             var iy = y + dy[k];
                             var ix = x + dx[k];
@@ -101,10 +119,6 @@
                             if (isPassable(maze, iy, ix)) {
                                 stop = false;
                                 maze[iy][ix] = waveNumber + 1;
-                            }
-
-                            if(isFinish(maze, y, x)) {
-                                restorePath(maze, y, x, waveNumber);
                             }
                         }
                     }
@@ -130,7 +144,7 @@
 
         lee(maze, y, x, waveNumber);
 
-        return SOLUTION;
+        return getShortestPath(PATHS);
     }
 
     root.maze.solution = solution;

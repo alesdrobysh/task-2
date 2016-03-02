@@ -20,14 +20,13 @@
     }
 
     /**
-     * Создает визуализацию лабиринта по его схеме с возможностью наложения маршрута
+     * Создает визуализацию лабиринта по его схеме
      *
      * @param {number[][]} maze схема лабиринта
-     * @param {[number, number][]} [path] маршрут
      * @returns {HTMLElement} HTML элемент
      */
-    function render(maze, path) {
-        if (path && path.length) {
+    function render(maze) {
+        /*if (path && path.length) {
             var point,
                 i;
 
@@ -37,7 +36,7 @@
             }
             point = path[path.length - 1];
             maze[point[1]][point[0]] = CURRENT;
-        }
+        }*/
 
         var containerElem = element('div', 'maze'),
             rowElem,
@@ -58,7 +57,7 @@
                     case WALL:
                         type = 'wall';
                         break;
-
+/*
                     case PATH:
                         type = 'path';
                         break;
@@ -66,7 +65,7 @@
                     case CURRENT:
                         type = 'current';
                         break;
-
+*/
                     default:
                         type = undefined;
                 }
@@ -93,12 +92,25 @@
         });
     }
 
-    function visualize(waves) {
+    function visualizeWaves(waves) {
         Object.keys(waves).forEach(function(wave, index) {
             setTimeout(visualizeWave.bind(null, waves, wave), index*VIZUALIZATION_DELAY);
         });
     }
 
+    function renderPath(path) {
+        path.forEach(function(point) {
+            var cell = document.querySelector('.maze')
+                            .querySelectorAll('.maze__row')[point[1]]
+                            .querySelectorAll('.maze__cell')[point[0]];
+
+            cell.style.removeProperty('background-color');
+            cell.style.removeProperty('opacity');
+            cell.classList.add('maze__cell_path');
+        });
+    }
+
     root.maze.render = render;
-    root.maze.visualize = visualize;
+    root.maze.visualizeWaves = visualizeWaves;
+    root.maze.renderPath = renderPath;
 })(this);

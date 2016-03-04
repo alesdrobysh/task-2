@@ -92,10 +92,16 @@
         });
     }
 
-    function visualizeWaves(waves) {
-        Object.keys(waves).forEach(function(wave, index) {
-            setTimeout(visualizeWave.bind(null, waves, wave), index*VIZUALIZATION_DELAY);
-        });
+    function visualizeWaves(waves, pathRenderer, path) {
+        var wavesNumbers = Object.keys(waves);
+
+        for (var i = 0; i < wavesNumbers.length + 1; i++) {
+            if (i < wavesNumbers.length) {
+                setTimeout(visualizeWave.bind(null, waves, wavesNumbers[i]), (i + 1)*VIZUALIZATION_DELAY);
+            } else if (pathRenderer && path) {
+                setTimeout(pathRenderer.bind(null, path), (i + 1)*VIZUALIZATION_DELAY);
+            }
+        }
     }
 
     function renderPath(path) {
@@ -108,6 +114,13 @@
             cell.style.removeProperty('opacity');
             cell.classList.add('maze__cell_path');
         });
+
+        var lastPoint = path[path.length - 1];
+        var lastCell = document.querySelector('.maze')
+                            .querySelectorAll('.maze__row')[lastPoint[1]]
+                            .querySelectorAll('.maze__cell')[lastPoint[0]];
+
+        lastCell.classList.add('maze__cell_current');
     }
 
     root.maze.render = render;

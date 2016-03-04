@@ -7,7 +7,5 @@
 
     var path = root.maze.solution(map, 1, 0);
 
-    //root.maze.visualizeWaves(maze.WAVES);
-
-    root.maze.renderPath(path);
+    root.maze.visualizeWaves(maze.WAVES, root.maze.renderPath, path);
 })(this);

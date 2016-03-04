@@ -35,17 +35,17 @@
      * @return {Boolean}
      */
     function isAnotherOneWavePossible(maze, y, x) {
-        if(isPassable(maze, y - 1, x)) {
+        if (isPassable(maze, y - 1, x)) {
             return true;
         }
 
-        if(isPassable(maze, y, x - 1)) {
+        if (isPassable(maze, y, x - 1)) {
             return true;
         }
-        if(isPassable(maze, y + 1, x)) {
+        if (isPassable(maze, y + 1, x)) {
             return true;
         }
-        if(isPassable(maze, y, x + 1)) {
+        if (isPassable(maze, y, x + 1)) {
             return true;
         }
 
@@ -77,25 +77,25 @@
         var path = [[x, y]];
 
         for (var i = waveNumber - 1; i >= START; i--) {
-            if(maze[y - 1] && maze[y - 1][x] === i) {
+            if (maze[y - 1] && maze[y - 1][x] === i) {
                 path.unshift([x, y - 1]);
                 y = y - 1;
                 continue;
             }
 
-            if(maze[y][x - 1] && maze[y][x - 1] === i) {
+            if (maze[y][x - 1] && maze[y][x - 1] === i) {
                 path.unshift([x - 1, y]);
                 x = x - 1;
                 continue;
             }
 
-            if(maze[y + 1] && maze[y + 1][x] === i) {
+            if (maze[y + 1] && maze[y + 1][x] === i) {
                 path.unshift([x, y + 1]);
                 y = y + 1;
                 continue;
             }
 
-            if(maze[y][x + 1] && maze[y][x + 1] === i) {
+            if (maze[y][x + 1] && maze[y][x + 1] === i) {
                 path.unshift([x + 1, y]);
                 x = x + 1;
                 continue;
@@ -156,7 +156,7 @@
                         WAVES[waveNumber] = WAVES[waveNumber] || [];
                         WAVES[waveNumber].push([y, x]);
 
-                        if(isFinish(maze, y, x)) {
+                        if (isFinish(maze, y, x)) {
                             restorePath(maze, y, x, waveNumber);
                         }
 

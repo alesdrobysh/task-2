@@ -74,7 +74,7 @@
                             .querySelectorAll('.maze__cell')[point[1]];
 
             cell.style.backgroundColor = VIZUALIZATION_COLOR;
-            cell.style.opacity = wave/Object.keys(waves).length;
+            cell.style.opacity = wave / Object.keys(waves).length;
         });
     }
 
@@ -91,9 +91,9 @@
 
         for (var i = 0; i < wavesNumbers.length + 1; i++) {
             if (i < wavesNumbers.length) {
-                setTimeout(visualizeWave.bind(null, waves, wavesNumbers[i]), (i + 1)*VIZUALIZATION_DELAY);
+                setTimeout(visualizeWave.bind(null, waves, wavesNumbers[i]), (i + 1) * VIZUALIZATION_DELAY);
             } else if (pathRenderer && path) {
-                setTimeout(pathRenderer.bind(null, path), (i + 1)*VIZUALIZATION_DELAY);
+                setTimeout(pathRenderer.bind(null, path), (i + 1) * VIZUALIZATION_DELAY);
             }
         }
     }
@@ -105,7 +105,7 @@
      * @return {[type]}
      */
     function renderPath(path) {
-        path.forEach(function(point) {
+        path.forEach(function (point) {
             var cell = document.querySelector('.maze')
                             .querySelectorAll('.maze__row')[point[1]]
                             .querySelectorAll('.maze__cell')[point[0]];

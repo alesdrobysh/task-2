@@ -8,6 +8,14 @@
     var PATHS = root.maze.PATHS = [];
     var START = 1;
 
+    /**
+     * Проверяет можно ли продвинуться в указанную точку
+     *
+     * @param  {number[][]} maze карта лабиринта представленная двумерной матрицей чисел
+     * @param  {number} координата точки проходимость которой проверяем по оси Y
+     * @param  {number} координата точки проходимость которой проверяем по оси Y
+     * @return {Boolean}
+     */
     function isPassable(maze, y, x) {
         var indexOutOfMaze = x < 0 || y < 0 || y > maze.length - 1 || x > maze[0].length - 1;
 
@@ -18,6 +26,14 @@
         return maze[y][x] === EMPTY;
     }
 
+    /**
+     * Проверяет можно ли продвинуться дальше из указанной точки
+     *
+     * @param  {number[][]} maze карта лабиринта представленная двумерной матрицей чисел
+     * @param  {number} координата точки по оси Y из которой ищется дальнейший путь
+     * @param  {number} координата точки по оси X из которой ищется дальнейший путь
+     * @return {Boolean}
+     */
     function isAnotherOneWavePossible(maze, y, x) {
         if(isPassable(maze, y - 1, x)) {
             return true;
@@ -36,10 +52,27 @@
         return false;
     }
 
+    /**
+     * Проверяет является ли координата финишной
+     *
+     * @param  {number[][]} maze карта лабиринта представленная двумерной матрицей чисел
+     * @param  {number} предполагаемая координата точки финиша по оси Y
+     * @param  {number} предполагаемая координата точки финиша по оси X
+     * @return {Boolean}
+     */
     function isFinish(maze, y, x) {
         return y === maze.length - 1;
     }
 
+    /**
+     * Восстанавливает путь от точки финиша до точки старта
+     *
+     * @param  {number[][]} maze карта лабиринта представленная двумерной матрицей чисел
+     * @param  {number} координата точки финиша по оси Y
+     * @param  {number} координата точки финиша по оси X
+     * @param  {number} номер волны, во время которой была обнаружена точка финиша
+     * @return {void}
+     */
     function restorePath(maze, y, x, waveNumber) {
         var path = [[x, y]];
 
@@ -72,6 +105,12 @@
         PATHS.push(path);
     }
 
+    /**
+     * Находит кратчайший путь из лабиринта из предоставленных возможных
+     *
+     * @param  {[number, number][][]} массив всевозможных путей из лабиринта
+     * @return {[number, number][]} кратчайший путь из лабиринта
+     */
     function getShortestPath(paths) {
         var indexOfShortestPath = 0;
         var shortestPathLength = paths[0].length;
@@ -86,6 +125,15 @@
         return paths[indexOfShortestPath];
     }
 
+    /**
+     * Реализация алгоритма Ли для поиска выхода из лабиринта
+     *
+     * @param  {number[][]} maze карта лабиринта представленная двумерной матрицей чисел
+     * @param  {number} координата точки старта по оси Y
+     * @param  {number} координата точки старта по оси X
+     * @param  {number} номер первой волны
+     * @return {void}
+     */
     function lee(maze, yStart, xStart, waveNumber) {
         var dx = [1, 0, -1, 0];
         var dy = [0, 1, 0, -1];

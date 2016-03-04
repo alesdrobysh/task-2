@@ -60,6 +60,13 @@
         return containerElem;
     }
 
+    /**
+     * Визуализирует один шаг распространения волны
+     *
+     * @param  {Object} объект, характерихующий распространение волны
+     * @param  {number} номер шага волны
+     * @return {void}
+     */
     function visualizeWave(waves, wave) {
         waves[wave].forEach(function(point) {
             var cell = document.querySelector('.maze')
@@ -71,6 +78,14 @@
         });
     }
 
+    /**
+     * Пошагово визуализирует распространение волны, опционально отрисовывавет путь из лабиринта
+     *
+     * @param  {Object} объект, характерихующий распространение волны
+     * @param  {Function} функция, отрисовывающая путь из лабиринта, опциональный параметр
+     * @param  {[number, number][]} маршрут к выходу представленный списоком пар координат, опциональный параметр
+     * @return {void}
+     */
     function visualizeWaves(waves, pathRenderer, path) {
         var wavesNumbers = Object.keys(waves);
 
@@ -83,6 +98,12 @@
         }
     }
 
+    /**
+     * Отрисовывает путь из лабиринта
+     *
+     * @param  {[number, number][]} маршрут к выходу представленный списоком пар координат
+     * @return {[type]}
+     */
     function renderPath(path) {
         path.forEach(function(point) {
             var cell = document.querySelector('.maze')
